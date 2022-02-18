@@ -1,0 +1,26 @@
+{
+  "name": "streaming",
+  "version": "1.0.0",
+  "description": "Streaming server for One Piece",
+  "main": "app.js",
+  "type" : "module",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [
+    "one",
+    "piece",
+    "streaming",
+    "node"
+  ],
+  "author": "Hugo",
+  "license": "ISC",
+  "dependencies": {
+    "@types/koa": "^2.13.4",
+    "koa": "^2.13.4",
+    "koa-jwt": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
