@@ -1,5 +1,6 @@
 {
   "name": "streaming",
+  "type": "module",
   "version": "1.0.0",
   "description": "Streaming server for One Piece",
   "main": "app.js",

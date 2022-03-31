@@ -7,21 +7,35 @@ const app = new Koa()
 
 app.use(async ({request, response}, next) => {
     if (!request.url.startsWith('/verify')) {
-        console.log("on rentre pas")
+        console.log("on verify pas")
     }
+    
     console.log("on est dedans")
+    response.body = "je suis alive";
+    return next()
 })
 
+app.use(async (ctx, next) => {
+    const request = ctx.request;
+    const response = ctx.response;
+    if (!request.url.startsWith('/episode')) {
+        console.log("pas d'épisode");
+        return next()
+    }
+    
+    console.log("Episode"  + request);
+    response.body = "mon episode ";
+    return next();
+})
 
 app.use(async ({request, response}, next) => {
-    console.log("On recherche le disque avec les eps : /dev/sda1 (à voir comment on le récupère / le monte etc.)")
-
+    
     if (
         !request.url.startsWith('/api/onepiece') ||
         !request.query.video
     ) {
-        console.log("on trouve pas l'url")
-        return next()
+        console.log("On ne rentre pas dans la pièce");
+        return next();
     }
 
     //on récupère vidéo et soit on le met en dur soit on le resolve pour être surs
@@ -33,6 +47,7 @@ app.use(async ({request, response}, next) => {
 
     const video = resolve("D:/1PEP/", request.query.video)
     const range = request.header.range
+
     if (!range) {
         console.log("No Range")
         response.type = extname(video)
@@ -52,15 +67,13 @@ app.use(async ({request, response}, next) => {
     response.set('Content-Length', end - start + 1)
     response.status = 206
     response.body = createReadStream(video, {start, end})
-
-})
-
-app.use(async ({request, response}, next) => {
-    console.log("Puppeteer ??")
+    
+    //return next(); ??
 })
 
 app.on('error', (err, ctx) => {
-    console.log("err classique ")
+    console.log("err classique ", err)
+    //return Koi ?
 })
 
 app.listen(3000)
