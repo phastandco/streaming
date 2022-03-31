@@ -6,13 +6,21 @@ import {promisify} from 'util'
 const app = new Koa()
 
 app.use(async ({request, response}, next) => {
+    if (!request.url.startsWith('/verify')) {
+        console.log("on rentre pas")
+    }
+    console.log("on est dedans")
+})
+
+
+app.use(async ({request, response}, next) => {
     console.log("On recherche le disque avec les eps : /dev/sda1 (à voir comment on le récupère / le monte etc.)")
 
     if (
         !request.url.startsWith('/api/onepiece') ||
         !request.query.video
     ) {
-        console.log("faire la cdt pour quand tout est bon mais on ne resolve pas l'épisode")
+        console.log("on trouve pas l'url")
         return next()
     }
 
@@ -21,11 +29,12 @@ app.use(async ({request, response}, next) => {
     //const video = request.query.video
     //url = localhost:3000/api/onepiece?video=D:/1PEP/One%20Piece%20725.mp4
     //avec resolve notre url devient :
-    //url = localhost:3000/api/onepiece?video=One%20Piece%20725.mp4
+    //url = http://localhost:3000/api/onepiece?video=One%20Piece%20725.mp4
+
     const video = resolve("D:/1PEP/", request.query.video)
     const range = request.header.range
     if (!range) {
-        console.log("pas de range")
+        console.log("No Range")
         response.type = extname(video)
         response.body = createReadStream(video)
         return next()
@@ -46,9 +55,8 @@ app.use(async ({request, response}, next) => {
 
 })
 
-app.use( ({request, response}, next) => {
-    console.log("next ??")
-    response.body = 'Yo les voyous'
+app.use(async ({request, response}, next) => {
+    console.log("Puppeteer ??")
 })
 
 app.on('error', (err, ctx) => {
