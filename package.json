@@ -21,6 +21,7 @@
     "koa": "^2.13.4",
     "koa-jwt": "^4.0.3",
     "mongodb": "^4.4.1",
+    "mongoose": "^6.2.9",
     "puppeteer": "^13.4.0",
     "puppeteer-core": "^13.4.0"
   },
