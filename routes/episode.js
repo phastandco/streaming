@@ -29,20 +29,18 @@ async function findEpisode(number) {
     }
 }
 
-function insertEpisode(episodeNumber) {
+async function insertEpisode(episodeNumber) {
     const title = "episode " + episodeNumber;
     const episodeURL = "https://ianime-fr.com/voir-one-piece-episode-" + episodeNumber + "-vostfr/";
     const fileName = "One Piece " + episodeNumber;
 
-    db.collection('episodes').insertOne({
+    await db.collection('episodes').insertOne({
     title,
     episodeNumber,
     episodeURL,
     fileName
   })
-  .then(function(result) {
-    console.log("Episode ajouté")
-  })
+  console.log("Episode ajouté")
 }
 
 export default router;
