@@ -1,6 +1,6 @@
 FROM node:17-slim
-WORKDIR /app
-COPY package.json /app
+WORKDIR /App
+COPY package.json /App
 RUN npm install
-COPY . /app
-CMD ["npm", "start"]
+COPY . /App
+CMD ["yarn", "start"]
