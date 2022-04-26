@@ -13,8 +13,12 @@ router.get('/', () => {
 
 router.get('/:number', (req, res) => {
     res.send(`Number : ${req.params.number}`);
-    findEpisode(req.params.number)
-});
+    try {
+        findEpisode(req.params.number)
+    } catch (err) {
+        console.log('Erreur : ' + err);
+    }
+    });
 
 async function findEpisode(number) {
     const episodeNumber = parseInt(number);
@@ -40,7 +44,7 @@ async function insertEpisode(episodeNumber) {
     episodeURL,
     fileName
   })
-  console.log("Episode ajouté")
+  console.log(`Episode ${episodeNumber} ajouté`)
 }
 
 export default router;
