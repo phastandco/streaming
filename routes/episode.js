@@ -11,25 +11,25 @@ router.get('/', () => {
     console.log("Fais pas ca gros")
 })
 
-router.get('/:number', (req, res) => {
-    res.send(`Number : ${req.params.number}`);
-    try {
-        findEpisode(req.params.number)
-    } catch (err) {
-        console.log('Erreur : ' + err);
-    }
-    });
+router.get('/:number', (req, res, error) => {
+    //res.send(`Number : ${req.params.number}`);
+    findEpisode(req.params.number).then(() => {
+        console.log("res : " + episode)
+        res.status(200)
+        .json(episode)
+    })
+    
+    
+});
 
 async function findEpisode(number) {
     const episodeNumber = parseInt(number);
-    
     const episode = await episodes.findOne({episodeNumber});
-    if (episode) {
-        console.log('Ce que tu veux : ', episode);
-    } else {
-        console.log("On a pas cet ep khouilla")
-        //insérer un ep qu'on a pas
-        insertEpisode(episodeNumber)
+    try {
+        console.log("Episode : " + episode.fileName)
+        return episode
+    } catch (e) {
+        console.log("souci : " + e)
     }
 }
 
