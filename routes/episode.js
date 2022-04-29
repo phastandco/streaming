@@ -11,25 +11,23 @@ router.get('/', () => {
     console.log("Fais pas ca gros")
 })
 
-router.get('/:number', (req, res, error) => {
-    //res.send(`Number : ${req.params.number}`);
-    findEpisode(req.params.number).then(() => {
-        console.log("res : " + episode)
-        res.status(200)
-        .json(episode)
-    })
-    
-    
+router.get('/:number', async (req, res) => {
+    const episode = await findEpisode(req.params.number)
+    console.log("Episode : " + JSON.stringify(episode) )
+    res.send(JSON.stringify(episode));
 });
 
 async function findEpisode(number) {
     const episodeNumber = parseInt(number);
+    
     const episode = await episodes.findOne({episodeNumber});
-    try {
-        console.log("Episode : " + episode.fileName)
-        return episode
-    } catch (e) {
-        console.log("souci : " + e)
+    if (episode) {
+        console.log('Ce que tu veux : ', episode);
+        return episode;
+    } else {
+        console.log("On a pas cet ep khouilla")
+        //insérer un ep qu'on a pas
+        //insertEpisode(episodeNumber)
     }
 }
 
@@ -44,7 +42,7 @@ async function insertEpisode(episodeNumber) {
     episodeURL,
     fileName
   })
-  console.log(`Episode ${episodeNumber} ajouté`)
+  console.log("Episode ajouté")
 }
 
 export default router;
