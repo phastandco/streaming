@@ -11,14 +11,12 @@ router.get('/', () => {
     console.log("Fais pas ca gros")
 })
 
-router.get('/:number', (req, res, error) => {
+router.get('/:number', async (req, res, error) => {
     //res.send(`Number : ${req.params.number}`);
-    findEpisode(req.params.number).then(() => {
-        console.log("res : " + episode)
-        res.status(200)
-        .json(episode)
-    })
-    
+    const episode = await findEpisode(req.params.number)
+    console.log("res : " + episode)
+    res.status(200)
+    res.send(episode)
     
 });
 
@@ -27,7 +25,7 @@ async function findEpisode(number) {
     const episode = await episodes.findOne({episodeNumber});
     try {
         console.log("Episode : " + episode.fileName)
-        return episode
+        return JSON.stringify(episode)
     } catch (e) {
         console.log("souci : " + e)
     }
