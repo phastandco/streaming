@@ -7,45 +7,44 @@ const router = express.Router();
 const dbCollection = 'episodes'
 const episodes = db.collection(dbCollection)
 
-router.get('/', () => {
+router.get('/', (req, res) => {
+    res.status(200)
+    res.setHeader('Content-Type', 'application/json');
+    res.send("unknown")
     console.log("Fais pas ca gros")
 })
 
-<<<<<<< HEAD
-router.get('/:number', async (req, res, error) => {
-    //res.send(`Number : ${req.params.number}`);
-    const episode = await findEpisode(req.params.number)
-    console.log("res : " + episode)
-    res.status(200)
-    res.send(episode)
-    
-=======
+router.get('/all', async (req, res) => {
+    res.send('all')
+    console.log("all")
+});
+
+
 router.get('/:number', async (req, res) => {
-    const episode = await findEpisode(req.params.number)
-    console.log("Episode : " + JSON.stringify(episode) )
-    res.send(JSON.stringify(episode));
->>>>>>> 44253726fecf0e168abd0327c1e0b2b18f18ff48
+    const episode = await findEpisode(req.params.number);
+    
+    try {
+        res.status(200).setHeader('Content-Type', 'application/json;charset=utf-8');
+        res.send(JSON.stringify(episode))
+        console.log("Ep ok : " + episode.fileName)
+    } catch (e) {
+        res.status(500).send({"msg" : "error"});
+        console.log("Ep inéxistant : " + e)
+    }
+    
 });
 
 async function findEpisode(number) {
     const episodeNumber = parseInt(number);
-    
     const episode = await episodes.findOne({episodeNumber});
-<<<<<<< HEAD
-    try {
-        console.log("Episode : " + episode.fileName)
-        return JSON.stringify(episode)
-    } catch (e) {
-        console.log("souci : " + e)
-=======
-    if (episode) {
-        console.log('Ce que tu veux : ', episode);
-        return episode;
+    if
+     (episode) {
+        return (episode);
     } else {
-        console.log("On a pas cet ep khouilla")
+        console.log("On a pas cet ep khouilla");
         //insérer un ep qu'on a pas
         //insertEpisode(episodeNumber)
->>>>>>> 44253726fecf0e168abd0327c1e0b2b18f18ff48
+        return null;
     }
 }
 
