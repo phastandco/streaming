@@ -22,7 +22,6 @@ router.get('/all', async (req, res) => {
 
 router.get('/:number', async (req, res) => {
     const episode = await findEpisode(req.params.number);
-    
     try {
         res.status(200).setHeader('Content-Type', 'application/json;charset=utf-8');
         res.send(JSON.stringify(episode))
